@@ -1,0 +1,44 @@
+---
+title: "R Course PHI"
+author: "David McAllister"
+date: "22 February 2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Learning objectives
+
+Preliminaries
+- Understand the pros and cons of R
+- Describe how R differs from SAS and SPSS
+- Understand how to use RStudio efficiently
+- Learn about R resources
+
+Data Management
+- Understand the concepts of tidy (canonical) data
+- Gain some experience of using the new tidyr and dplyr packages
+
+Visualisation
+- Understand the Grammar of Graphics and try out ggplot2
+
+## Slide with Bullets
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+
+## Slide with R Output
+
+```{r cars, echo = TRUE}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r pressure}
+plot(pressure)
+```
+
