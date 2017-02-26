@@ -1,8 +1,10 @@
 ---
 title: "Course workbook"
 output:
+  pdf_document: default
   html_notebook: default
   html_document: default
+  word_document: default
 ---
 
 ## 1 Using RStudio
@@ -16,7 +18,7 @@ follows:
 ![](../images/image1.png){width="6.268055555555556in"
 height="4.427083333333333in"}
 
-Figure 2 Illustration of Rstudio and its four panes. Top left: Script
+Illustration of Rstudio and its four panes. Top left: Script
 pane; Bottom left: I/O pane; Bottom right: figures, help and
 documentation; Top right: history and environment
 
@@ -67,7 +69,7 @@ panes is as follows:
 RStudio Features
 ----------------
 
-**Exercise 1**: Go into the ‘global options’ line within the ‘Tools’
+**Exercise**: Go into the ‘global options’ line within the ‘Tools’
 dropdown menu within RStudio, then select ‘Appearance’, then the ‘Idle
 Fingers’ editor theme. The colour coding described below uses this
 theme, but the principle is broader. If you prefer, select a different
@@ -84,7 +86,7 @@ following figure:
 ![](../images/image2.png){width="6.268055555555556in"
 height="6.684722222222222in"}
 
-Figure 1 Example of an R script in the RStudio console
+Example of an R script in the RStudio console
 
 One of the first things to note is that different parts of the text are
 coloured in different ways. These colours aren’t put in manually by the
@@ -127,7 +129,7 @@ Console. Some examples:
     language, hence the same colour being applied to both parts of
     the text.
 
-**Exercise 2**: Create an R script and write out some of the lines in
+**Exercise**: Create an R script and write out some of the lines in
 the script above, noting how different parts of the code are highlighted
 in different ways. If a different colour scheme has been used, work out
 which text colours indicate which parts of the code. (objects,
@@ -166,7 +168,7 @@ that you might want to pass to the function.
 You can also see the yellow box to the right of the drop down list. This
 contains extra information on the particular highlighted item.
 
-**Exercise 3**: Reproduce the in-text drop-down list shown above.
+**Exercise**: Reproduce the in-text drop-down list shown above.
 
 Another useful feature is name autocomplete. For example I can create an
 object, with a very long name, containing a value, as follows:
@@ -210,7 +212,7 @@ recognised as one object, but this object is thought to be two objects,
 this and object, and will produce an error as you have not specified how
 this and object should relate to each other.
 
-**Exercise 4**: Produce two objects, one with a long name, the other
+**Exercise**: Produce two objects, one with a long name, the other
 with a short name, and whose names both start with the same characters,
 and use the drop-down menu to choose between them. Assign the value of
 one of the objects to the other object, and delete one or both objects.
@@ -220,13 +222,13 @@ one of the objects to the other object, and delete one or both objects.
 
 In this section we will look at manipulating data with the dplyr package. dplyr is designed to simplify and standardise data manipulation in R. It has grown out of extensive research into how people actually manipulate data.
 
-Even very experienced R users, and I started using R in 2008, have moved over to dplyr for its several advantages; it is incredibly fast, consistent and easy to use. One of the consistencies is brought about by the use of tibbles. tibbles are essentially dataframes with stricter rules about converting between types of objects, and better printing.
+Even very experienced R users, and I started using R in 2008, have moved over to dplyr for its several advantages; it is incredibly fast, consistent and easy to use. One of the consistencies is brought about by the use of tibbles. tibbles are essentially dataframes with stricter rules about converting between types of objects, and better default printing options.
 
 We will work through a typical ISD problem using dplyr consulting the RStudio cheatsheet on "Data Transformation with dplyr" (https://www.rstudio.com/resources/cheatsheets/). Before that, it is important to cover a few key concepts.
 
-### 1. dplyr works at the dataframe level.
+### 1. dplyr works at the dataframe (not the vector) level.
 
-This might seem like a move back to SPSS-type approaches, and in some ways it is. dplyr gives the advantages of a very simple interface for much data manipulation work, but with modern consitent approaches and a tigh integration with R's wider functionality. 
+This might seem like a move back to SPSS-type approaches, and in some ways it is. dplyr gives the advantages of a very simple interface for much data manipulation work, but with modern consitent approaches and a tight integration with R's wider functionality. 
 
 ### 2. Each data manipultion action is represented as a dplyr function.
 
@@ -293,29 +295,131 @@ One last thing about dplyr. It uses non-standard evaluation. Most R functions re
 ## The problem
 
 You have received an urgent information request. Some people are concerned that some environmental exposure in Lothian is increasing the rate of childhood Leukaemia. You have been asked to respond; specifically you have to:-
+
 1. Calculate the number and rate of childhood leukaemia in Lothian and other health Boards
 2. Summarise this graphically and in tables, and compare the Lothian rates to other regions in Scotland.
 
 Open up the script. Childhood Leukaemia, and work through the exercises below.
 
-**Exercise 4**:
+**Exercise**:
 See script leukaemia.R
+
 1. Load the data. Examine each table to understand the structure.
 2. Run each section of code. Make sure you understand the pipe operator **%>%** and what each line of code is doing.
 3. Modify the first section of code so that only codes in positions 1 or 2 are included.
 4. Modify the code so that only first episodes are included.
 5. Why did I use the dplyr if_else() function rather than the base R ifelse() function?
 6. Exclude Fife data from the Rest of Scotland versus Lothian comparison
-7. Count the total number of deaths within 30 days of discharge following an incident admission with leukaemia
+7. Count the total number of deaths within 30 days of discharge following an incident admission with leukaemia and calculate the 30-day case fatality proportion. Then aggregate this by health board and sex 
 
 
-**Exercise 5**:
+# Messy data and tidy data with Tidyr
+
+**Exercise**:
 see script waiting times.R
-1. Run the code. Make sure that you ahve an idea of what each line does by running it.
+
+1. Run the code. Make sure that you have an idea of what each line does by running it.
 2. In what ways are this data messy?
 3. Why is it important to move rownames to the datafraem itself?
 4. Pick a version of your team's datasets that is not tidy. Consider how you would make it tidy.
 
+# Data visualisation
+Data Visualisation using ggplot2
+--------------------------------
+
+ggplot2 is Hadley Wickham’s most popular R package. It is designed for
+data visualisation. In ggplot2 the + operator behaves somewhat like the
+%&gt;% operator does within dplyr and tidyr. However, order is
+irrelevant for ggplot2. Also, ggplot2 draws from a different paradigm, a
+way of thinking about and being explicit about the production of data
+graphics known as the ‘grammar of graphics’, based on a book of this
+name by the statistician Leland Wilkinson. A large number of
+introductions exist to ggplot2, but at its core the grammar of graphics
+approach is about providing a language for clearly defining *the mapping
+rules which link values in columns in a data frame to features on a
+graphical display*. Conceptually, this can be thought about as kind of
+‘box wiring’ exercise, with data frame columns at one side of the box,
+and graphical features on the other end of the box. An example of this
+is shown below:
+
+![](../images/vis1.png){width="6.268055555555556in"
+height="1.8055555555555556in"}
+
+In this example the data frame, on the left, can be thought to contain
+four columns, and the values in each of these columns are ‘wired’ to so
+they control a different part of the graphic displayed. At a minimum,
+within ggplot2 the user needs to specify:
+
+-   The dataset which contains the variables
+
+-   The mapping rules, known as ***aes***thetics, which define how the
+    values of the variables control different parts of the graphic
+
+-   The ***geom***etrics: the type of graphic element that is displayed
+
+An illustration of how the above set of mapping rules may look within
+ggplot2 is as follows:
+
+```{r, eval = FALSE}
+ggplot2(dta, aes(x = health_care_records,y = health_care_provision, size = population_size, fill = is_north)) +
+  geom_point()
+
+```
+
+-   This aes function defines the mapping rules indicated by the box wiring above.
+
+    -   x = health\_care\_needs : the horizontal position of the points
+        is determined by the value of rows in the health\_care\_needs
+        column
+
+    -   y = health\_care\_provision : the vertical position of the
+        points is determined by the value of the rows in the
+        health\_care\_provision column
+
+    -   size = population\_size: the size of the points is determined by
+        the value of the rows in the population\_size column. (This
+        effectively turns points into bubbles, and hence is why there is
+        no separate geom\_bubble function.)
+
+    -   fill = is\_north: the colour or shade within the point/bubble is
+        determined by the value of the rows in the is\_north column.
+
+The above example is based on the main figure in a 2004 paper by Mary
+Shaw and Danny Dorling[^1], reproduced below, along with the notes
+presented below that figure:
 
 
+![](../images/vis3.jpeg){width="4.441666666666666in" height="2.0790616797900263in"}
+
+
+This figure was very likely produced in Excel. The grammar of graphics
+paradigm is largely independent of any particular statistical package or
+programming language, even though the ggplot2 package is specific to R.
+
+**ggplot2: Cheat Sheet, Websites and Books**
+
+For ggplot2, the standard R help files are often less useful than for
+many other functions and packages, mainly because the concepts and ideas
+are so inherently visual, whereas the help files are text files. Instead
+the official website is generally a much more effective resource for
+learning about ggplot2 in action:
+
+<http://docs.ggplot2.org/0.9.3.1/index.html>
+
+Like the data wrangling cheat sheet, Rstudio have produced a Cheat Sheet
+for data visualisation using ggplot2:
+
+**Exercise:** Explore and discuss the cheat sheet and website with other
+attendees.
+
+As suggested by its smaller font size and increased number of columns,
+the data visualisation cheat sheet contains more content than the data
+wrangling cheat sheet, not least because ggplot2 is an older, better
+developed and more complex package than dplyr and tidyr, and so requires
+more knowledge and experience to use properly. An extremely good book
+for using ggplot2 is Hadley Wickham’s own ggplot2 book (second edition)
+
+[^1]: Shaw M & Dorling D (2004) “Who cares in England and Wales? The
+    Positive Care Law: cross-sectional study” *British Journal of
+    General Practice*, 54 (509): 899-903
 

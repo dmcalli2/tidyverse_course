@@ -11,12 +11,22 @@ load( file = "data/Fake_leukaemia_data.Rdata")
 #####
 # Identifiy leukaemia codes
 # First search for codes pertaining to Acute myeloid leukaemia
-adm_codes$codes[str_detect(adm_codes$codes, "C92")] %>%  
-  unique() %>% 
-  paste(collapse = "', '")
+# adm_codes$codes[str_detect(adm_codes$codes, "C92")] %>%  
+#   unique() %>% 
+#   paste(collapse = "', '")
 
-# Next create a vector of codes for searching
+# Take the vector of codes for searching
 codes_want <- c('C92.2', 'C92.9', 'C92.5', 'C92.3', 'C92.1', 'C92.7', 'C92.4', 'C92.0')
+
+# Make a list which drops each in turn
+drop_code <- as.list(-c(1:8))
+names(drop_code) <- paste0("drp_", codes_want)
+codes_want_list <- map(drop_code, ~ codes_want[.x])
+
+rm(codes_want)
+
+# Apply that list to the analysis
+codes_drop_out <- map(codes_want_list, function(codes_want){
 
 # Select admission episodes where one of these codes appear in the first 4 positions
 adm_codes_slct <- adm_codes %>% 
@@ -105,7 +115,7 @@ final %>%
   scale_color_discrete("Health Board")
 
 ## Make table of regression results
-pois_mod %>% 
+pois_tbl <- pois_mod %>% 
   tidy() %>% 
   mutate(est = exp(estimate),
          lci = exp(est -1.96*std.error),
@@ -160,6 +170,7 @@ cf_brd_sex
 mod2 <- glm(cbind(death_30_day, admission - death_30_day) ~ hb + sex, data = cf_brd_sex,
             family = "binomial")
 summary(mod2)
+model_res <- broom::tidy(mod2)
 
 # Check the model fit
 cf_brd_sex$pred <- augment(mod2)$.fitted %>% 
@@ -167,3 +178,8 @@ cf_brd_sex$pred <- augment(mod2)$.fitted %>%
   `*`(100) %>% 
   round(1)
 
+## Objects of interest
+
+list(pois_tbl, cf_brd_sex, model_res)
+
+})

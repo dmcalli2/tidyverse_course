@@ -1,0 +1,79 @@
+---
+output:
+  html_document: default
+  word_document: default
+---
+
+Heart Disease Statistics Update
+========================================================
+This little demonstration report was written in R--Studio using the *RMarkown* and *KnitR* packages. The resultant markdown code was converted by *pandoc* (not an R package, but other opensource software) into the .docx format.
+
+Key points
+=========================
+* Coronary heart disease (CHD), which includes heart attacks, is a leading cause of illness and death in Scotland.
+* The number of new cases of CHD (incidence) has decreased over the past decade. The age and sex standardised incidence rate decreased from 361.7 per 100,000 in 2003/04 to 262.8 in 2012/13, a decrease of 27.3%.
+* There has been a steady downward trend in deaths from CHD in Scotland, UK and Europe over the last 10 years with the mortality rate in Scotland falling by 43.6%.
+* The reduction in death rates for CHD over the decade 2003-2012 has been seen in both the most and least materially deprived communities.
+* The percentage reduction in deaths in the most deprived category (37.6%) over the last 10 years is larger than that in the least deprived category (29.0%).
+* The difference in the death rate between the most and least deprived areas has also decreased over the last decade.
+* For those admitted to hospital as an emergency with their first heart attack, the chances of surviving at least 30 days have improved over the last ten years from 84.4% to 91.8%.
+* Although the number of prescriptions for drugs to treat cardiovascular disease (all diseases of the circulation, including CHD) increased by 25.8% in the last 10 years, the overall costs of prescriptions dispensed for cardiovascular drugs fell in 2012/13 to £111.7 million, a reduction of 29.1% on the previous year.
+* This is the lowest cost for these drugs over the last ten years (since 2003/04).
+* Costs may continue to reduce as more medicines become available in less expensive non-branded (generic) form.
+
+Coronary Heart Disease (CHD)
+==========================
+In coronary heart disease, the blood supply to the heart is reduced or blocked. This can cause heart attacks or chest pain on exercise (angina).
+
+Heart disease discharges
+--------------------------
+In the last decade the overall trend in the number of discharges from hospital with CHD has been decreasing. The 1976 European age and sex standardised discharge rate fell by 21.7% from 856.1 to 670.2 per 100,000 population.  
+
+What you can do
+===============
+Embedding tables
+---------------
+You can automatically embed tables produced from the data. This code makes the table.
+```{r table1, results='asis'} 
+mydata <- data.frame (sex = c(rep("male",20), rep("female",10)), eye.colour = sample (c("blue","green"),30,replace = TRUE), hair.colour = sample (c("blond","brown"),30,replace = TRUE))
+a<- table (mydata$sex, mydata$eye.colour)
+```
+and this code turns it into the correct markdown format for export to MS word via pandoc.
+```{r table, results = 'asis'}
+knitr::kable(a)
+```
+
+Embedding plots
+---------------
+You can embed plots. Here is an example, where I have specified with width and height in inches and the dots per inch. The default format for the image is windows metafile as we are exporting to word.
+```{r figure_test, fig.width=5, fig.height=4, dpi = 600, fig.cap="the name of the plot"}
+plot(cars)
+```
+
+Embedding results within a paragraph
+------------------------------------
+You can embed results from an analysis. For example the average speed in the built--in "cars" dataset in R is `r mean(cars$speed)` miles per hour, and the maximum speed was `r max (cars$speed)` miles per hour.
+
+Embedding equations
+---------------------------
+$$(1-p)^{n} = \frac{1}{p}$$
+
+
+Adding footnotes
+-----------------
+Adding footnotes is also straightforward.
+We can also write footnotes[^1]. And another footnote[^2]
+In the conversion to word these become endnotes.
+
+
+You can edit this all you like, with track changes. Then it can be copied and pasted back in and re-run.
+
+
+Footnotes on the next page
+-----------------
+Footnotes on the next page keep the same numbering[^3]
+
+
+[^1]: hi, I'm a footnote
+[^2]: This is the second footnote.
+[^3]: regardless of the actual number you choose
