@@ -9,7 +9,7 @@ wait_names <- list.files("data/cancer_waits/")  %>%
   str_replace_all("\\.csv", "" )
 names(waits) <- wait_names
 waits
-waits <- map(waits, ~ read_csv(file = .x))
+waits <- map(waits, function(x) read_csv(file = x))
 
 ## Examine contents of each dataset
 map(waits, dim) %>%  unique()
@@ -39,19 +39,25 @@ wait %>%
 ## Or aggregate it
 wait %>%
   group_by(year, region, sex) %>% 
-  summarise_at(vars(q50, q25, q75), sum)
+  summarise_at(vars(q50, q25, q75), median)
 
 ## Or run regression models
 # original model
 mod1 <- wait %>%
   glm(q50 ~ age + sex + region, family = "poisson", data = .)
 
+
 # Model by lists
 # create list
 wait_by_yrs <- split(wait, wait$year)
 
 # Run model
-wait_yr_mods <- map(wait_by_yrs, function(x) glm(q50 ~ age + sex + region, family = "poisson", data = x))
+wait_yr_mods <- map(wait_by_yrs, 
+                    function(x) {
+                      glm(q50 ~ age + sex + region, family = "poisson", 
+                          data = x)
+                      }
+                    )
 
 # extract model
 wait_yr_mods_coef <- map(wait_yr_mods, tidy) %>% 

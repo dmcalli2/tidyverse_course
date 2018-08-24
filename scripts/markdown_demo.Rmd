@@ -74,6 +74,18 @@ Footnotes on the next page
 Footnotes on the next page keep the same numbering[^3]
 
 
+# Let's say I wanted to add a plot of some regression coefficeints.
+
+```{r}
+model_res <- readRDS("../data/leukaemia_mod_res.Rds")
+library(ggplot2)
+plot1 <- ggplot(model_res,
+                aes(x = term, y = estimate)) + geom_boxplot()
+plot1
+
+```
+
+
 [^1]: hi, I'm a footnote
 [^2]: This is the second footnote.
 [^3]: regardless of the actual number you choose

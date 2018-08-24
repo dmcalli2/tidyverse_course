@@ -215,10 +215,17 @@ tb
 ```
 
 ```{r}
- tb %>% 
-  gather(demo, n, -iso2, -year, na.rm = TRUE) %>% 
+tb <- tb %>% 
+  gather(demo, n, -iso2, -year, na.rm = TRUE) 
+tb
+```
+
+```{r}
+tb %>% 
   separate(demo, c("sex", "age"), 1)
 ```
+
+
 # Variables are stored in both rows and columns.
 
 ```{r, echo = FALSE}
@@ -348,7 +355,7 @@ cars %>% mutate_all(funs(. - mean(.)))
 
 like `lapply()` `map()` takes a list and applies a function to it.
 
-```{r, eval = FALSE}
+```{r, eval = TRUE}
 my_list <- list(a = 1:3, b = c("char1", "char2"))
 # Exactly the same as lapply
 map(my_list, function(x) paste(class(x), length(x), sep = ", "))
