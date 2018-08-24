@@ -21,12 +21,12 @@ codes_want <- c('C92.2', 'C92.9', 'C92.5', 'C92.3', 'C92.1', 'C92.7', 'C92.4', '
 # Make a list which drops each in turn
 drop_code <- as.list(-c(1:8))
 names(drop_code) <- paste0("drp_", codes_want)
-codes_want_list <- map(drop_code, ~ codes_want[.x])
+codes_want_list <- map(drop_code, function(x) codes_want[x])
 
 rm(codes_want)
 
 # Apply that list to the analysis
-codes_drop_out <- map(codes_want_list, function(codes_want){
+codes_drop_out <- map(codes_want_list, function(codes_want) {
 
 # Select admission episodes where one of these codes appear in the first 4 positions
 adm_codes_slct <- adm_codes %>% 
@@ -183,3 +183,10 @@ cf_brd_sex$pred <- augment(mod2)$.fitted %>%
 list(pois_tbl, cf_brd_sex, model_res)
 
 })
+
+
+codes_drop_out <- transpose(codes_drop_out)
+model_res <- codes_drop_out[[3]]
+
+model_res <- bind_rows(model_res, .id = "code_dropped")
+saveRDS(model_res, file = "data/leukaemia_mod_res.Rds")
